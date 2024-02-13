@@ -13,7 +13,10 @@ The guide is deployed to the [bigprof.com](https://bigprof.com) website using th
 1. Clone this repository tothe deployment server if it's not already there.
 2. Copy the `post-merge` hook inside `.git/hooks` directory to automatically deploy the guide to the website whenever a new version is merged to the repository.
 3. Edit the copied `post-merge` hook to set the correct path and owner for the website files.
-4. Make sure the `post-merge` hook is executable by running `chmod +x .git/hooks/post-merge`.
+4. Make sure the `post-merge` hook is executable by running:
+   ```bash
+   chmod +x .git/hooks/post-merge
+   ```
 
 Now whenever a new version is merged to the repository on the deployment server, either via `git pull` or by being pushed, the guide will be automatically deployed to the website.
 
@@ -23,12 +26,12 @@ To create a new version of the guide, follow these steps:
 
 1. Run:
    ```bash
-   new-version <previous-version> <new-version>
+   ./new-version <previous-version> <new-version>
    ```
    where `<previous-version>` is the previous version of the guide and `<new-version>` is the new version of the guide.
    For example, to create a new version 24.11 of the guide, run:
    ```bash
-   new-version 24.10 24.11
+   ./new-version 24.10 24.11
    ```
 2. To update a file in the new version:
    ```bash
