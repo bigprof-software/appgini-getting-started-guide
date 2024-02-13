@@ -1,0 +1,88 @@
+#!/bin/bash
+
+VERBOSE=true  # Set to true to enable verbose logging
+
+# if no params are passed, display usage and exit
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: $0 <old-version> <new-version>"
+    exit 1
+fi
+
+# store current directory to return to it later
+PWD=$(pwd)
+
+# Full path of this script's directory, then append /html to it
+BASE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/html"
+
+cd $BASE_PATH
+
+dir1="$1"
+dir2="$2"
+
+# Check if dir1 exists under current directory
+if [ ! -d "$dir1" ]; then
+    echo "Error: Directory '$dir1' does not exist under '$BASE_PATH'."
+	cd $PWD
+    exit 1
+fi
+
+
+# Check if dir2 does NOT exist under current directory
+if [ -d "$dir2" ]; then
+	echo "Error: Directory '$dir2' already exists under '$BASE_PATH'."
+	cd $PWD
+	exit 1
+fi
+
+# make sure dir1 matches the pattern ^\d{2}\.\d{2}$, e.g. 24.10
+if [[ ! "$dir1" =~ ^[0-9]{2}\.[0-9]{2}$ ]]; then
+	echo "Error: Param 1 should be in the format xx.xx, e.g. 24.10"
+	cd $PWD
+	exit 1
+fi
+
+# make sure dir2 matches the pattern ^\d{2}\.\d{2}$, e.g. 24.11
+# and that it's greater than dir1
+if [[ ! "$dir2" =~ ^[0-9]{2}\.[0-9]{2}$ ]]; then
+	echo "Error: Param 2 should be in the format xx.xx, e.g. 24.11"
+	cd $PWD
+	exit 1
+fi
+if [ "$dir2" \< "$dir1" ]; then
+	echo "Error: Param 2 should be greater than param 1"
+	cd $PWD
+	exit 1
+fi
+
+# Create dir2 under current directory
+mkdir "$dir2"
+
+# Iterate over the contents of dir1
+for item in "$BASE_PATH/$dir1"/*; do
+    # if item is a symlink, resolve it
+	if [ -L "$item" ]; then
+		item=$(readlink -f "$item")
+	fi
+
+    # Remove the base path from the item's path
+	item=${item#$BASE_PATH/}
+
+	# create a symlink in dir2 pointing to the item
+	ln -s "../$item" "$dir2/$(basename $item)"
+
+    # Log copied files/links if VERBOSE is set to true
+    if [ "$VERBOSE" = "true" ]; then
+        echo "Copied: $item"
+    fi
+done
+
+# Update 'latest' symlink to point to dir2 (create if it doesn't exist)
+ln -sfn "$dir2" "$BASE_PATH/latest"
+if [ "$VERBOSE" = "true" ]; then
+    echo "Updated 'latest' symlink to point to $dir2"
+fi
+
+echo "New getting started guide $dir2 created successfully."
+echo
+
+cd $PWD

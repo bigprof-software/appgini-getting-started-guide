@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This script should be copied to .git/hooks/ in the root of the repository on the deployment server
+# It will be executed after an update to the repository has been made via git pull
+
+$HTML_PATH="/path/to/guide" # Change this to the path of the getting started guide inside the web server document root
+
+# path of this script
+SCRIPT_PATH=$(dirname $(readlink -f $0))
+
+# Make sure $SCRIPT_PATH ends with .git/hooks
+if [[ $SCRIPT_PATH != *".git/hooks" ]]; then
+   echo "This script should be copied to .git/hooks/ in the root of the repository on the deployment server"
+   exit 1
+fi
+
+# Make sure the html path exists
+if [ ! -d $HTML_PATH ]; then
+   echo "Error: $HTML_PATH does not exist. Please set the correct path in \$HTML_PATH variable in this script."
+   exit 1
+fi
+
+if [ "$GIT_PULL_FLAG" = "true" ]; then
+   # copy the html dir contents to the web server
+   cp -r $SCRIPT_PATH/../../html/* $HTML_PATH
+fi

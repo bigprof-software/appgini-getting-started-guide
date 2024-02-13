@@ -1,0 +1,16 @@
+#!/bin/bash
+
+item=$1
+
+# make sure item is a symlink in the current directory
+if [ ! -L "$item" ]; then
+	echo "Error: $item is not a symlink"
+	exit 1
+fi
+
+cp -pL $item $item-copy
+rm -f $item
+mv $item-copy $item
+
+echo "Resolved symlink $item into a copy of the target file"
+echo
