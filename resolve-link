@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# if no parameter is passed, display usage and exit
+if [ -z "$1" ]; then
+	echo "Usage: $0 <symlink>"
+	exit 1
+fi
+
 item=$1
 
 # make sure item is a symlink in the current directory
