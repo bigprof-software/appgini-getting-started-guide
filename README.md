@@ -21,7 +21,15 @@ Now whenever a new version is merged to the repository on the deployment server,
 
 To create a new version of the guide, follow these steps:
 
-1. Run `new-version <previous-version> <new-version>` where `<previous-version>` is the previous version of the guide and `<new-version>` is the new version of the guide. For example, to create a new version 24.11 of the guide, run `new-version 24.10 24.11`.
+1. Run:
+   ```bash
+   new-version <previous-version> <new-version>
+   ```
+   where `<previous-version>` is the previous version of the guide and `<new-version>` is the new version of the guide.
+   For example, to create a new version 24.11 of the guide, run:
+   ```bash
+   new-version 24.10 24.11
+   ```
 2. To update a file in the new version:
    ```bash
    cd html/<new-version> # for example, cd html/24.11
