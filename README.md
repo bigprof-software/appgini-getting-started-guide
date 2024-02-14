@@ -2,7 +2,7 @@
 
 This repository contains the HTML and images used for the [AppGini getting started guide](https://bigprof.com/getting-started-with-appgini).
 
-The guide supports efficient versioning so that for example the guide for AppGini 24.11 is a symlink to the guide for AppGini 24.10, and only the changed files are actually stored in the `/24.11` directory.
+The guide supports efficient versioning so that, for example, the guide for AppGini 24.11 is a symlink to the guide for AppGini 24.10, and only the changed files are actually stored in the `/24.11` directory.
 
 The guide also supports `/latest` symlink to the latest version of the guide.
 
@@ -10,9 +10,9 @@ The guide also supports `/latest` symlink to the latest version of the guide.
 
 The guide is deployed to the [bigprof.com](https://bigprof.com) website using the following steps:
 
-1. Clone this repository tothe deployment server if it's not already there.
+1. Clone this repository to the deployment server if it's not already there.
 2. Copy the `post-merge` hook inside `.git/hooks` directory to automatically deploy the guide to the website whenever a new version is merged to the repository.
-3. Edit the copied `post-merge` hook to set the correct path and owner for the website files.
+3. Edit the copied `post-merge` hook to set the correct path, owner and group for the website files.
 4. Make sure the `post-merge` hook is executable by running:
    ```bash
    chmod +x .git/hooks/post-merge
