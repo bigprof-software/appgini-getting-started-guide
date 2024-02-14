@@ -3,7 +3,9 @@
 # This script should be copied to .git/hooks/ in the root of the repository on the deployment server
 # It will be executed after an update to the repository has been made via git pull
 
-$HTML_PATH="/path/to/guide" # Change this to the path of the getting started guide inside the web server document root
+HTML_PATH="/path/to/guide" # Change this to the path of the getting started guide inside the web server document root
+OWNER="www-data" # Change this to the owner of the web server process
+GROUP="www-data" # Change this to the group of the web server process
 
 # path of this script
 SCRIPT_PATH=$(dirname $(readlink -f $0))
@@ -23,4 +25,5 @@ fi
 if [ "$GIT_PULL_FLAG" = "true" ]; then
    # copy the html dir contents to the web server
    cp -r $SCRIPT_PATH/../../html/* $HTML_PATH
+   chown -R $OWNER:$GROUP $HTML_PATH
 fi
