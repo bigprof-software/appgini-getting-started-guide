@@ -25,5 +25,14 @@ $(() => {
 		});
 	}
 
+	// on sliding, check if we're at the last slide, and update the next button accordingly
+	$('#carousel-guide').on('slid.bs.carousel', () => {
+		const activeSlide = $('.carousel-inner .item.active');
+		const lastSlide = activeSlide.is(':last-child');
+
+		$('#next-slide').toggleClass('hidden', lastSlide);
+		$('#last-slide').toggleClass('hidden', !lastSlide);
+	});
+
 	loadSlide(1);
 })
