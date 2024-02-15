@@ -1,0 +1,15 @@
+.carousel {
+  height: 60vh;
+  overflow-y: auto;
+}
+h1.page-header {
+  height: 14vh;
+  font-weight: 900;
+}
+.navigation {
+  margin-top: 1.5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+  gap: 3em;
+  justify-content: space-around;
+}
