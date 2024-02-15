@@ -11,9 +11,16 @@
   max-width: fit-content;
 }
 
+.slide-progress {
+  text-align: center;
+  margin-bottom: 2em;
+  color: #999;
+  font-weight: 700;
+}
+
 h1.page-header {
   font-weight: 900;
-  margin-bottom: 2em;
+  margin-bottom: 1.25em;
 }
 .navigation {
   padding: 1em 2em;

@@ -7,7 +7,15 @@ $(() => {
 		
 		$.get(slideId, (data) => {
 			// create a new div.item in .carousel-inner, and create a div.flex-container inside it, then append the slide content to it
-			$('<div>').addClass('item').html(`<div class="flex-container">${data}</div>`).appendTo('.carousel-inner');
+			$('<div>').addClass('item').html(`
+				<div class="slide-progress">${i} / <span class="slide-count"></span></div>
+				<div class="flex-container">
+					${data}
+				</div>`
+			).appendTo('.carousel-inner');
+
+			// update slide count
+			$('.slide-count').text(i);
 
 			// load next slide if we haven't reached MAX_SLIDES
 			if(i < MAX_SLIDES) loadSlide(i + 1);
