@@ -33,16 +33,50 @@ $(() => {
 		});
 	}
 
+	const isLastSlide = () => $('.carousel-inner .item.active').next('.item').length === 0;
+
+	const updateLastButton = () => {
+		$('#next-slide').toggleClass('hidden', isLastSlide());
+		$('#last-slide').toggleClass('hidden', !isLastSlide());
+	}
+
 	// on 'slid' event, prevent the default behavior of the carousel
 	$('#carousel-guide').on('slide.bs.carousel', (e) => e.preventDefault());
 
-	// on sliding, check if we're at the last slide, and update the next button accordingly
-	$('#carousel-guide').on('slid.bs.carousel', () => {
-		const activeSlide = $('.carousel-inner .item.active');
-		const lastSlide = activeSlide.is(':last-child');
+	// on clicking 'first-slide' button, manually slide to the first slide
+	$('#first-slide').on('click', () => {
+		$('.carousel-inner .item.active').removeClass('active');
+		$('.carousel-inner .item').first().addClass('active');
+		updateLastButton();
+	});
 
-		$('#next-slide').toggleClass('hidden', lastSlide);
-		$('#last-slide').toggleClass('hidden', !lastSlide);
+	// on 'click' event of the next button, manually slide to the next slide
+	$('#next-slide').on('click', () => {
+		const activeSlide = $('.carousel-inner .item.active');
+		const nextSlide = activeSlide.next('.item');
+
+		// set next slide as active
+		if(nextSlide.length) {
+			activeSlide.removeClass('active');
+			nextSlide.addClass('active');
+		}
+
+		updateLastButton();
+	});
+
+	// on 'click' event of the previous button, manually slide to the previous slide
+	$('#prev-slide').on('click', () => {
+		const activeSlide = $('.carousel-inner .item.active');
+		const prevSlide = activeSlide.prev('.item');
+		const isFirstSlide = prevSlide.length === 0;
+
+		// set previous slide as active
+		if(!isFirstSlide) {
+			activeSlide.removeClass('active');
+			prevSlide.addClass('active');
+		}
+
+		updateLastButton();
 	});
 
 	loadSlide(1);
