@@ -33,6 +33,9 @@ $(() => {
 		});
 	}
 
+	// on 'slid' event, prevent the default behavior of the carousel
+	$('#carousel-guide').on('slide.bs.carousel', (e) => e.preventDefault());
+
 	// on sliding, check if we're at the last slide, and update the next button accordingly
 	$('#carousel-guide').on('slid.bs.carousel', () => {
 		const activeSlide = $('.carousel-inner .item.active');
